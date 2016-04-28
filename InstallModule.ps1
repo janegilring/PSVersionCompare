@@ -1,4 +1,4 @@
-﻿$ModuleName   = "Compare-PSVersionCommand"
+﻿$ModuleName   = "PSVersionCompare"
 $ModulePath   = "C:\Program Files\WindowsPowerShell\Modules"
 $TargetPath = "$($ModulePath)\$($ModuleName)"
 
@@ -24,4 +24,15 @@ $targetFiles = echo `
 Get-ChildItem -Path $targetFiles | 
     ForEach {
         Copy-Item -Verbose -Path $_.FullName -Destination (Join-Path -Path $TargetPath -ChildPath Functions)
+    }
+
+    if(!(Test-Path $TargetPath\PSCommandData)) { md $TargetPath\PSCommandData | out-null}
+
+$targetFiles = echo `
+    PSCommandData
+
+    
+Get-ChildItem -Path $targetFiles | 
+    ForEach {
+        Copy-Item -Verbose -Path $_.FullName -Destination (Join-Path -Path $TargetPath -ChildPath PSCommandData)
     }
