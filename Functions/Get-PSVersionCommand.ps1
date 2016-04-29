@@ -28,7 +28,8 @@ $PSVersionCommandData = Invoke-Command -Session $Session -ScriptBlock {
 Get-Module -ListAvailable | Where-Object {
 
 ($PSItem.ModuleBase -like "$env:SystemRoot\system32\WindowsPowerShell\v1.0\Modules*" -or 
-$PSItem.ModuleBase -like "$env:ProgramFiles\WindowsPowerShell\Modules*")
+$PSItem.ModuleBase -like "$env:ProgramFiles\WindowsPowerShell\Modules*") -and 
+$PSItem.Name -ne 'RemoteDesktop' #workaround for DefaultCommandPrefix issue, implemented only by the RemoteDesktop module. Will be investigated soon.
 
 } | Select-Object Name,ModuleBase,Version -PipelineVariable Module | ForEach-Object -Process {
 

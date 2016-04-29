@@ -3,19 +3,19 @@
   [CmdletBinding()]
   param
   (
-    [Parameter(Mandatory=$false,ParameterSetName = 'InputFromXml')]
+    [Parameter(Mandatory=$true,ParameterSetName = 'InputFromXml')]
     [string]
     $SourceVersionPath,
     
-    [Parameter(Mandatory=$false,ParameterSetName = 'InputFromXml')]
+    [Parameter(Mandatory=$true,ParameterSetName = 'InputFromXml')]
     [string]
     $CompareVersionPath,
 
-    [Parameter(Mandatory=$false,ParameterSetName = 'InputFromComputer')]
+    [Parameter(Mandatory=$true,ParameterSetName = 'InputFromComputer')]
     [string]
     $SourceVersionComputerName,
     
-    [Parameter(Mandatory=$false,ParameterSetName = 'InputFromComputer')]
+    [Parameter(Mandatory=$true,ParameterSetName = 'InputFromComputer')]
     [string]
     $CompareVersionComputerName,
     
