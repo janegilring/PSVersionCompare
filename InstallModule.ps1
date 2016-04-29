@@ -1,5 +1,5 @@
 ﻿$ModuleName   = "PSVersionCompare"
-$ModulePath   = "C:\Program Files\WindowsPowerShell\Modules"
+$ModulePath   = "$env:ProgramFiles\WindowsPowerShell\Modules"
 $TargetPath = "$($ModulePath)\$($ModuleName)"
 
 if(!(Test-Path $TargetPath)) { md $TargetPath | out-null}
