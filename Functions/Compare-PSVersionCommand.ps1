@@ -3,13 +3,21 @@
   [CmdletBinding()]
   param
   (
-    [Parameter(Mandatory=$false)]
+    [Parameter(Mandatory=$false,ParameterSetName = 'InputFromXml')]
     [string]
     $SourceVersionPath,
     
-    [Parameter(Mandatory=$false)]
+    [Parameter(Mandatory=$false,ParameterSetName = 'InputFromXml')]
     [string]
     $CompareVersionPath,
+
+    [Parameter(Mandatory=$false,ParameterSetName = 'InputFromComputer')]
+    [string]
+    $SourceVersionComputerName,
+    
+    [Parameter(Mandatory=$false,ParameterSetName = 'InputFromComputer')]
+    [string]
+    $CompareVersionComputerName,
     
     [Parameter(Mandatory=$false)]
     [string]
@@ -17,8 +25,23 @@
   )
   
 
-$SourceVersion = Import-CliXml -Path $SourceVersionPath | Where-Object Module -like $ModuleFilter | Sort-Object -Property Name
-$CompareVersion = Import-CliXml -Path $CompareVersionPath | Where-Object Module -like $ModuleFilter | Group-Object -Property Module | Sort-Object -Property Name
+switch ($PSCmdlet.ParameterSetName) {
+
+        'InputFromXml' {
+        
+          $SourceVersion = Import-CliXml -Path $SourceVersionPath | Where-Object Module -like $ModuleFilter | Sort-Object -Property Name
+          $CompareVersion = Import-CliXml -Path $CompareVersionPath | Where-Object Module -like $ModuleFilter | Group-Object -Property Module | Sort-Object -Property Name        
+        
+         }
+        'InputFromComputer' { 
+        
+          $SourceVersion = Get-PSVersionCommand -ComputerName $SourceVersionComputerName | Where-Object Module -like $ModuleFilter | Sort-Object -Property Name
+          $CompareVersion = Get-PSVersionCommand -ComputerName $CompareVersionComputerName | Where-Object Module -like $ModuleFilter | Group-Object -Property Module | Sort-Object -Property Name 
+        
+        }
+}
+
+
 
 foreach ($Module in $CompareVersion) {
  
