@@ -42,7 +42,15 @@ Get-Command -Module $PSItem.Name | Select-Object -Property Name,@{Name=’Parame
 if ($Export) {
 
 $PathInfo = Invoke-Command -Session $Session -ScriptBlock {
-($((Get-CimInstance -ClassName win32_operatingsystem).Caption) + '-' + $PSVersionTable.PSVersion.ToString() + '.xml')
+
+if (-not ($PSEdition)) {
+
+$PSEdition = 'Desktop'
+
+}
+
+($((Get-CimInstance -ClassName win32_operatingsystem).Caption) + '_' + $PSVersionTable.PSVersion.ToString() + '_' + $PSEdition + '.xml')
+
 }
 
 if (-not ($Path)) {
