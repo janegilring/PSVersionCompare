@@ -17,7 +17,11 @@ http://www.powershellmagazine.com/2016/04/29/comparing-commands-between-powershe
 
 # Todo list
 A Name parameter for specifying what command to compare. If not specified, all commands will be compared.
+
 Options for output- formats, such as CSV, JSON, and HTML. Default output format is meant for interactive usage, not to export.
+
 An Online parameter for retrieving the XML files for the specified PS Versions from an online location. Defaults to the PSCommandData folder in the Git repository.
+
 Add Pester tests
+
 Add help
