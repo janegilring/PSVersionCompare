@@ -7,7 +7,8 @@ if(!(Test-Path $TargetPath)) { md $TargetPath | out-null}
 $targetFiles = echo `
     *.xml `
     *.psm1 `
-    *.psd1
+    *.psd1 `
+    *.help.txt
 
     
 Get-ChildItem -Path $targetFiles | 

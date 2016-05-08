@@ -12,7 +12,7 @@
 RootModule = 'PSVersionCompare.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.1'
+ModuleVersion = '0.2'
 
 # ID used to uniquely identify this module
 GUID = 'ed7130ec-f8a2-4530-8382-38650275f0d9'
@@ -66,7 +66,7 @@ FormatsToProcess = @()
 # NestedModules = @()
 
 # Functions to export from this module
-FunctionsToExport = 'Compare-PSVersionCommand Get-PSVersionCommand'
+FunctionsToExport = @('Compare-PSVersionCommand','Get-PSVersionCommand')
 
 # Cmdlets to export from this module
 CmdletsToExport = @()
@@ -104,7 +104,10 @@ PrivateData = @{
         # IconUri = ''
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'Initial version, for more information see http://www.powershellmagazine.com/?p=12292'
+        ReleaseNotes = '
+        0.2 - Added help
+        0.1 - Initial version, for more information see http://www.powershellmagazine.com/?p=12292
+        '
 
         # External dependent modules of this module
         # ExternalModuleDependencies = ''

@@ -1,4 +1,42 @@
-﻿function Get-PSVersionCommand
+﻿<#
+	.SYNOPSIS
+		A function to retrieve PowerShell commands from a computer. Defaults to the local machine if -ComputerName is not specified.
+
+	.DESCRIPTION
+		If you run Get-PSVersionCommand without -Export, you will get all commands from system wide modules returned. With the -Export parameter specified the results will be exported to an XML-file.
+
+	.PARAMETER  ComputerName
+		The name of the computer to retrieve information from.
+
+	.PARAMETER  Path
+		The path to the generated XML-file when -Export is specified. If -Path is not specified to Get-PSVersionCommand -Export, the default naming convention for the generated XML-file is “OS Caption_PSVersion_PSEdition.xml” (for example Microsoft Windows Server 2016 Datacenter Technical Preview 5_5.1.14284.1000_Core.xml).
+
+	.PARAMETER  Export
+		Switch parameter to specify export to an XML-file rather than returning the results
+
+	.PARAMETER  ModuleFilter
+		Wildcard filter to limit the modules to filter on, for example Microsoft.*
+
+	.EXAMPLE
+    Get-PSVersionCommand -Export
+
+	.EXAMPLE
+		Get-PSVersionCommand -ComputerName HPV-2016TP5 -Export -Verbose
+
+	.EXAMPLE
+		Get-PSVersionCommand -ComputerName HPV-2016TP5 -Export -Path "~\Microsoft Windows Server 2016 Datacenter Technical Preview 5_5.1.14284.1000_Core.xml"
+
+	.INPUTS
+		System.String
+
+	.OUTPUTS
+		System.String
+
+	.LINK
+		about_PSVersionCompare
+
+#>
+function Get-PSVersionCommand
 {
   [CmdletBinding()]
   param
@@ -72,4 +110,3 @@ $PSVersionCommandData
 Remove-PSSession -Session $Session
   
 }
-

@@ -1,0 +1,35 @@
+﻿TOPIC
+    about_PSVersionCompare
+
+SHORT DESCRIPTION
+    Articfacts for comparing commands between Windows PowerShell versions
+                                   
+LONG DESCRIPTION
+    
+    Due to the new and fast moving pace Microsoft have gotten into, we will see more frequent updates to PowerShell than before. Version number is one element, another one which is not easy to keep track of as a regular PowerShell user is what commands are new or changed. For example, parameters might be added or removed from existing cmdlets.
+
+    At the time of this writing, a new technical preview of Windows Server 2016 has just been released. But how can you know what is changed with regards to PowerShell commands?
+
+    Since the need to perform this task will occur more and more often going forward, the PSVersionCompare module was created with a reusable function. The function is named Compare-PSVersionCommand. You can either get it directly from GitHub, or use PowerShellGet to install it from the PowerShell Gallery: Install-Module -Name PSVersionCompare
+
+    In the initial version, Compare-PSVersionCommand have two parameter sets which makes it possible to compare based on either XML-files pre-gathered from systems, or data gathered directly via PowerShell remoting.
+
+
+EXAMPLES
+
+#Input gathered via PowerShell remoting
+Compare-PSVersionCommand -SourceVersionComputerName HPV-VM-2016TP4 -CompareVersionComputerName HPV-JR-2016TP5 -ModuleFilter Microsoft.*
+ 
+#Input from XML
+$PSCommandDataRoot = 'C:\Program Files\WindowsPowerShell\Modules\PSVersionCompare\PSCommandData'
+$SourceVersionPath = Join-Path -Path $PSCommandDataRoot -ChildPath 'Microsoft Windows Server 2016 Datacenter Technical Preview 4_5.0.10586.0_Desktop.xml'
+$CompareVersionPath = Join-Path -Path $PSCommandDataRoot -ChildPath 'Microsoft Windows Server 2016 Datacenter Technical Preview 5_5.1.14284.1000_Desktop.xml'
+Compare-PSVersionCommand -SourceVersionPath $SourceVersionPath  -CompareVersionPath $CompareVersionPath -ModuleFilter Microsoft.*
+
+SEE ALSO
+    More info on GitHub:  https://github.com/janegilring/PSVersionCompare
+    Article on PowerShell Magazine: http://www.powershellmagazine.com/2016/04/29/comparing-commands-between-powershell-versions
+
+
+KEYWORDS
+    PowerShell Version Compare
