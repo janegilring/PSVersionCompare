@@ -36,9 +36,13 @@ if (-not $RequiredVersion)
 Get-Module $ModuleName | Remove-Module
 
 # Import the required version
+<#
+#Temporarily removing since this does not work on V4 and thus breaks test in AppVeyor
 Import-Module $ModuleName -RequiredVersion $RequiredVersion -ErrorAction Stop
-$ms = [Microsoft.PowerShell.Commands.ModuleSpecification]@{ ModuleName = $ModuleName; RequiredVersion = $RequiredVersion }
-$commands = Get-Command -FullyQualifiedModule $ms
+#$ms = [Microsoft.PowerShell.Commands.ModuleSpecification]@{ ModuleName = $ModuleName; RequiredVersion = $RequiredVersion }
+#$commands = Get-Command -FullyQualifiedModule $ms
+#>
+$commands = Get-Command -Module $ModuleName
 
 ## When testing help, remember that help is cached at the beginning of each session.
 ## To test, restart session.
