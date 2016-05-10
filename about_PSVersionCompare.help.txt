@@ -2,7 +2,7 @@
     about_PSVersionCompare
 
 SHORT DESCRIPTION
-    Articfacts for comparing commands between Windows PowerShell versions
+    The PSVersionCompare module contains functionality for comparing commands between Windows PowerShell versions. By running Compare-PSVersionCommand and specifying either a set of 2 computer names or 2 XML-files to run the comparison against, output will be returned indicating whether a command or parameter is added (+), changed (!) or removed (-).
                                    
 LONG DESCRIPTION
     
