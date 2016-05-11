@@ -1,6 +1,6 @@
 ﻿<#
 	.SYNOPSIS
-		A function to compare PowerShell commands between two computer.
+		A function to compare PowerShell commands between two computers.
 
 	.DESCRIPTION
 		Compare-PSVersionCommand have two parameter sets which makes it possible to compare based on either XML-files pre-gathered from systems, or data gathered directly via PowerShell remoting.
@@ -90,7 +90,7 @@ $SourceModule = $SourceVersion | Where-Object {$_.Module -eq $Module.Name}
 
 if ($SourceModule) {
 
-Write-Host "Command differences in module $($Module.Name)" -ForegroundColor Yellow
+Write-Host "Comparing module $($Module.Name)" -ForegroundColor Yellow
 
 Compare-Object -ReferenceObject $SourceModule -DifferenceObject $Module.Group -Property Name -IncludeEqual -PassThru | ForEach-Object {
 
