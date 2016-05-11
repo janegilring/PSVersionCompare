@@ -92,18 +92,24 @@ $PSEdition = 'Desktop'
 }
 
 if (-not ($Path)) {
+
 $Path = Join-Path -Path '~\Documents\' -ChildPath $PathInfo
+
 }
 
 Write-Verbose "Path not specified, generated path: $Path"
 
 $PSVersionCommandData | Export-Clixml -Path $Path
 
-Write-Verbose "Exported PSVersionCommand data from computer $($ComputerName) to path $path"
+Write-Verbose "Exported PSVersionCommand data from computer $($ComputerName) to path $Path"
+
+Write-Host "Exported PSVersionCommand data from computer $($ComputerName) to path:"
+
+return $Path
 
 } else {
 
-$PSVersionCommandData
+return $PSVersionCommandData
 
 }
 
