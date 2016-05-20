@@ -48,6 +48,9 @@ Describe "$ModuleName Module - Testing Manifest File (.psd1)"{
         It 'Should contains Copyright' {
             $ModuleInformation.Copyright | Should not BeNullOrEmpty
         }
+
+        if ($PSVersionTable.PSVersion.Major -ge 5) {
+
         It 'Should contains License' {
             $ModuleInformation.LicenseURI | Should not BeNullOrEmpty
         }
@@ -56,6 +59,8 @@ Describe "$ModuleName Module - Testing Manifest File (.psd1)"{
         }
         It 'Should contains a Tags (For the PSGallery)' {
             $ModuleInformation.Tags.count | Should not BeNullOrEmpty
+        }
+
         }
         
         It 'Compare the count of Function Exported and the PS1 files found' {
