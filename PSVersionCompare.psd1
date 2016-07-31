@@ -12,7 +12,7 @@
 RootModule = 'PSVersionCompare.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.2'
+ModuleVersion = '0.3'
 
 # ID used to uniquely identify this module
 GUID = 'ed7130ec-f8a2-4530-8382-38650275f0d9'
@@ -66,7 +66,7 @@ FormatsToProcess = @()
 # NestedModules = @()
 
 # Functions to export from this module
-FunctionsToExport = @('Compare-PSVersionCommand','Get-PSVersionCommand')
+FunctionsToExport = @('Compare-PSVersionCommand','Compare-PSVersionVariable','Get-PSVersionCommand','Get-PSVersionVariable')
 
 # Cmdlets to export from this module
 CmdletsToExport = @()
