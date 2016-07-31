@@ -20,6 +20,9 @@
 	.PARAMETER  ModuleFilter
 		Wildcard filter to limit the modules to filter on, for example Microsoft.*
 
+  .PARAMETER ExcludeParameter
+   Parameters to exclude from comparison
+
 	.EXAMPLE
     Compare-PSVersionCommand -SourceVersionComputerName HPV-VM-2016TP4 -CompareVersionComputerName HPV-JR-2016TP5 -ModuleFilter Microsoft.*
 
@@ -62,10 +65,14 @@ function Compare-PSVersionCommand
     
     [Parameter(Mandatory=$false)]
     [string]
-    $ModuleFilter = '*'
+    $ModuleFilter = '*',
+    
+    [Parameter(Mandatory=$false)]
+    [object]
+    $ExcludeParameter
   )
   
-
+  
 switch ($PSCmdlet.ParameterSetName) {
 
         'InputFromXml' {
@@ -100,8 +107,8 @@ Compare-Object -ReferenceObject $SourceModule -DifferenceObject $Module.Group -P
     {
         $Command = $_
 
-        $cmdold = $SourceModule | Where-Object {$_.Name -eq $Command.Name-and $_.Version -eq $Command.Version} | Select-Object -ExpandProperty Parameters
-        $cmdnew = $Module.Group | Where-Object {$_.Name -eq $Command.Name -and $_.Version -eq $Command.Version} | Select-Object -ExpandProperty Parameters
+        $cmdold = $SourceModule | Where-Object {$_.Name -eq $Command.Name-and $_.Version -eq $Command.Version} | Select-Object -ExpandProperty Parameters | Where-Object {$_ -notin $ExcludeParameter}
+        $cmdnew = $Module.Group | Where-Object {$_.Name -eq $Command.Name -and $_.Version -eq $Command.Version} | Select-Object -ExpandProperty Parameters | Where-Object {$_ -notin $ExcludeParameter}
 
         if (-not $cmdold) {
 
