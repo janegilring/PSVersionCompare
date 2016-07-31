@@ -9,7 +9,7 @@
 		The name of the computer to retrieve information from.
 
 	.PARAMETER  Path
-		The path to the generated XML-file when -Export is specified. If -Path is not specified to Get-PSVersionCommand -Export, the default naming convention for the generated XML-file is “OS Caption_PSVersion_PSEdition.xml” (for example Microsoft Windows Server 2016 Datacenter Technical Preview 5_5.1.14284.1000_Core.xml).
+		The path to the generated XML-file when -Export is specified. If -Path is not specified to Get-PSVersionCommand -Export, the default naming convention for the generated XML-file is “OS Caption_PSVersion_PSEdition_Commands.xml” (for example Microsoft Windows Server 2016 Datacenter Technical Preview 5_5.1.14284.1000_Core_Commands.xml).
 
 	.PARAMETER  Export
 		Switch parameter to specify export to an XML-file rather than returning the results
@@ -24,7 +24,7 @@
 		Get-PSVersionCommand -ComputerName HPV-2016TP5 -Export -Verbose
 
 	.EXAMPLE
-		Get-PSVersionCommand -ComputerName HPV-2016TP5 -Export -Path "~\Microsoft Windows Server 2016 Datacenter Technical Preview 5_5.1.14284.1000_Core.xml"
+		Get-PSVersionCommand -ComputerName HPV-2016TP5 -Export -Path "~\Microsoft Windows Server 2016 Datacenter Technical Preview 5_5.1.14284.1000_Core_Commands.xml"
 
 	.INPUTS
 		System.String
@@ -87,7 +87,7 @@ $PSEdition = 'Desktop'
 
 }
 
-($((Get-CimInstance -ClassName win32_operatingsystem).Caption) + '_' + $PSVersionTable.PSVersion.ToString() + '_' + $PSEdition + '.xml')
+($((Get-CimInstance -ClassName win32_operatingsystem).Caption) + '_' + $PSVersionTable.PSVersion.ToString() + '_' + $PSEdition + '_Commands.xml')
 
 }
 
