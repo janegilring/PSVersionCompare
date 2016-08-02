@@ -67,13 +67,13 @@ Get-ChildItem -Path $targetFiles |
         Copy-Item -Verbose -Path $_.FullName -Destination (Join-Path -Path $TargetPath -ChildPath Functions)
     }
 
-    if(!(Test-Path $TargetPath\PSCommandData)) { mkdir $TargetPath\PSCommandData | out-null}
+    if(!(Test-Path $TargetPath\PSData)) { mkdir $TargetPath\PSData | out-null}
 
 $targetFiles = Write-Output `
-    PSCommandData
+    PSData
 
     
 Get-ChildItem -Path $targetFiles | 
     ForEach-Object {
-        Copy-Item -Verbose -Path $_.FullName -Destination (Join-Path -Path $TargetPath -ChildPath PSCommandData)
+        Copy-Item -Verbose -Path $_.FullName -Destination (Join-Path -Path $TargetPath -ChildPath PSData)
     }
