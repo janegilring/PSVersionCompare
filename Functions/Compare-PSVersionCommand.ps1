@@ -23,8 +23,14 @@
   .PARAMETER ExcludeParameter
    Parameters to exclude from comparison
 
+  .PARAMETER ExcludeCommonParameters
+   Excludes common parameters from comparison. Set to $true by default in order to avoid clutter.
+
 	.EXAMPLE
     Compare-PSVersionCommand -SourceVersionComputerName HPV-VM-2016TP4 -CompareVersionComputerName HPV-JR-2016TP5 -ModuleFilter Microsoft.*
+
+    	.EXAMPLE
+    Compare-PSVersionCommand -SourceVersionComputerName HPV-VM-2016TP4 -CompareVersionComputerName HPV-JR-2016TP5 -ExcludeCommonParameters:$false
 
 	.EXAMPLE
     $PSCommandDataRoot = 'C:\Program Files\WindowsPowerShell\Modules\PSVersionCompare\PSCommandData'
@@ -69,11 +75,14 @@ function Compare-PSVersionCommand
     
     [Parameter(Mandatory=$false)]
     [object]
-    $ExcludeParameter
+    $ExcludeParameter,
+    [Parameter(Mandatory=$false)]
+    [switch]
+    $ExcludeCommonParameters = $true
   )
   
   
-switch ($PSCmdlet.ParameterSetName) {
+  switch ($PSCmdlet.ParameterSetName) {
 
         'InputFromXml' {
         
@@ -87,42 +96,49 @@ switch ($PSCmdlet.ParameterSetName) {
           $CompareVersion = Get-PSVersionCommand -ComputerName $CompareVersionComputerName | Where-Object Module -like $ModuleFilter | Group-Object -Property Module | Sort-Object -Property Name 
         
         }
-}
+  }
 
+  if ($ExcludeCommonParameters) {
+  
+    Write-Verbose -Message 'Excluding common parameters'
+  
+    $CommonParameters = [System.Management.Automation.Internal.CommonParameters].GetProperties().Name
+  
+  }
+  
 
-
-foreach ($Module in $CompareVersion) {
+  foreach ($Module in $CompareVersion) {
  
-$SourceModule = $SourceVersion | Where-Object {$_.Module -eq $Module.Name}
+    $SourceModule = $SourceVersion | Where-Object {$_.Module -eq $Module.Name}
 
-if ($SourceModule) {
+    if ($SourceModule) {
 
-Write-Host "Comparing module $($Module.Name)" -ForegroundColor Yellow
+      Write-Host "Comparing module $($Module.Name)" -ForegroundColor Yellow
 
-Compare-Object -ReferenceObject $SourceModule -DifferenceObject $Module.Group -Property Name -IncludeEqual -PassThru | ForEach-Object {
+      Compare-Object -ReferenceObject $SourceModule -DifferenceObject $Module.Group -Property Name -IncludeEqual -PassThru | ForEach-Object {
 
-    $Command = $_
-
-    if($_.SideIndicator -eq ‘==’)
-    {
         $Command = $_
 
-        $cmdold = $SourceModule | Where-Object {$_.Name -eq $Command.Name-and $_.Version -eq $Command.Version} | Select-Object -ExpandProperty Parameters | Where-Object {$_ -notin $ExcludeParameter}
-        $cmdnew = $Module.Group | Where-Object {$_.Name -eq $Command.Name -and $_.Version -eq $Command.Version} | Select-Object -ExpandProperty Parameters | Where-Object {$_ -notin $ExcludeParameter}
-
-        if (-not $cmdold) {
-
-        Write-Host "$($Command.Name) not found in source version, skip"
-
-        continue
-
-        }
-
-
-        $compare = Compare-Object $cmdold $cmdnew
-
-        if ($compare)
+        if($_.SideIndicator -eq ‘==’)
         {
+          $Command = $_
+
+          $cmdold = $SourceModule | Where-Object {$_.Name -eq $Command.Name-and $_.Version -eq $Command.Version} | Select-Object -ExpandProperty Parameters | Where-Object {$_ -notin $ExcludeParameter}  | Where-Object {$_ -notin $CommonParameters}
+          $cmdnew = $Module.Group | Where-Object {$_.Name -eq $Command.Name -and $_.Version -eq $Command.Version} | Select-Object -ExpandProperty Parameters | Where-Object {$_ -notin $ExcludeParameter} | Where-Object {$_ -notin $CommonParameters}
+
+          if (-not $cmdold) {
+
+            Write-Host "$($Command.Name) not found in source version, skip"
+
+            continue
+
+          }
+
+
+          $compare = Compare-Object $cmdold $cmdnew
+
+          if ($compare)
+          {
             try
             {
                 $NewParameters = $compare | Where-Object {$_.SideIndicator -eq ‘=>’} | ForEach-Object {$_.InputObject + ‘ (+)’}
@@ -133,24 +149,24 @@ Compare-Object -ReferenceObject $SourceModule -DifferenceObject $Module.Group -P
                 “`n”
             }
             catch{}
+          }
         }
-    }
-    elseif($_.SideIndicator -eq ‘=>’)
-    {
-        “$($Command.name) (+)`n”
-    }
-    else
-    {
-        “$($Command.name) (-)`n”
-    }
-}
+        elseif($_.SideIndicator -eq ‘=>’)
+        {
+          “$($Command.name) (+)`n”
+        }
+        else
+        {
+          “$($Command.name) (-)`n”
+        }
+      }
   
-  } else {
+    } else {
 
-  Write-Host "Module $($Module.Name) non-existent or not installed in source version" -ForegroundColor Magenta
+      Write-Host "Module $($Module.Name) non-existent or not installed in source version" -ForegroundColor Magenta
 
+    }
   }
-}
   
 }
 

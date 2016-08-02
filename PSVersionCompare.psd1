@@ -12,7 +12,7 @@
 RootModule = 'PSVersionCompare.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.3'
+ModuleVersion = '0.4'
 
 # ID used to uniquely identify this module
 GUID = 'ed7130ec-f8a2-4530-8382-38650275f0d9'
@@ -105,6 +105,7 @@ PrivateData = @{
 
         # ReleaseNotes of this module
         ReleaseNotes = '
+        0.4 - Added parameter -ExcludeCommonParameters to Compare-PSVersionCommand.
         0.3 - Added two new functions for comparing automatic variables
         0.2 - Added help
         0.1 - Initial version, for more information see http://www.powershellmagazine.com/?p=12292
