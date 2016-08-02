@@ -105,6 +105,7 @@ PrivateData = @{
 
         # ReleaseNotes of this module
         ReleaseNotes = '
+        0.3 - Added two new functions for comparing automatic variables
         0.2 - Added help
         0.1 - Initial version, for more information see http://www.powershellmagazine.com/?p=12292
         '
